@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cathy Nguyen Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: black stage taken from the PDF portfolio. Giant condensed name over a portrait,
+   a moving keyword band, a works index with a cursor-following preview, then one coloured block per project.
+   Single theme by choice: the portfolio lives in one dark visual world. */
+:root {
+  --bg: #0a0a0a;
+  --panel: #151515;
+  --ink: #f4f1ea;
+  --muted: #9b978d;
+  --line: #2a2a2a;
+  --accent: #f2b632;
+  --display: "Anton", "Haettenschweiler", "Arial Narrow Bold", Impact, sans-serif;
+  --body: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --mono: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --gutter: clamp(16px, 4vw, 56px);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.mono { font-family: var(--mono); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; }
+.wrap { padding-inline: var(--gutter); }
+.display { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: .9; margin: 0; }
+
+/* Header */
+header.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 24px; padding-block: 18px; }
+.brand { font-family: var(--display); font-size: 1.35rem; text-transform: uppercase; text-decoration: none; letter-spacing: .01em; }
+nav.main { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+nav.main a { text-decoration: none; }
+nav.main a:hover { color: var(--accent); }
+.btn { display: inline-block; padding: 10px 20px; border-radius: 999px; background: var(--ink); color: var(--bg); text-decoration: none; font-weight: 600; transition: background .2s; }
+.btn:hover { background: var(--accent); }
+nav.main a.btn:hover { color: var(--bg); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); gap: clamp(16px, 3vw, 40px); align-items: end; padding-block: clamp(8px, 2vw, 24px) clamp(28px, 4vw, 48px); }
+.hero figure { margin: 0; }
+.hero figure img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 30%; }
+.hero-text { min-width: 0; overflow-x: clip; display: grid; gap: clamp(18px, 3vw, 36px); }
+.hero-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--muted); }
+.hero-meta span:first-child { max-width: 52ch; }
+h1 { font-size: clamp(4.2rem, 17vw, 17rem); letter-spacing: -.005em; animation: rise .8s cubic-bezier(.2,.7,.2,1); }
+h1 span { display: block; }
+h1 span + span { color: var(--accent); }
+@keyframes rise { from { transform: translateY(24px); } to { transform: none; } }
+.lede { margin: 0; max-width: 44ch; font-size: clamp(1.05rem, 1.6vw, 1.3rem); }
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero figure img { aspect-ratio: 4 / 3; }
+}
+
+/* Moving band */
+.band { overflow: hidden; border-block: 1px solid var(--line); padding-block: 14px; }
+.band-track { display: flex; width: max-content; animation: slide 36s linear infinite; }
+.band-track span { font-family: var(--display); text-transform: uppercase; font-size: clamp(1.4rem, 3vw, 2.4rem); white-space: nowrap; padding-right: .6em; }
+.band-track i { font-style: normal; color: var(--accent); padding-right: .6em; }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* Sections */
+section { padding-block: clamp(48px, 7vw, 104px); }
+.eyebrow { color: var(--muted); margin: 0 0 20px; }
+h2.display { font-size: clamp(2.6rem, 8vw, 7.5rem); }
+
+/* Bilan */
+.bilan { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 28px); margin-top: clamp(24px, 4vw, 48px); }
+.bilan a { text-decoration: none; display: grid; gap: 12px; align-content: start; }
+.bilan .shot { overflow: hidden; background: var(--panel); }
+.bilan img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.bilan a:hover img { transform: scale(1.05); }
+.bilan .row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.bilan .n { font-family: var(--display); font-size: 2.2rem; line-height: .9; }
+.bilan strong { display: block; text-transform: uppercase; font-stretch: 90%; }
+.bilan .role { color: var(--accent); display: block; }
+.bilan .when { color: var(--muted); text-align: right; }
+@media (max-width: 760px) { .bilan { grid-template-columns: 1fr; } }
+
+/* Pillars */
+.pitch { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(20px, 5vw, 80px); align-items: start; border-top: 1px solid var(--line); }
+.pitch p.big { margin: 0; font-size: clamp(1.4rem, 2.8vw, 2.4rem); line-height: 1.2; font-stretch: 88%; font-weight: 500; text-wrap: balance; }
+.pitch p.big em { font-style: normal; color: var(--accent); }
+.pitch ul { list-style: none; margin: 0; padding: 0; }
+.pitch li { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.pitch li:first-child { border-top: 1px solid var(--line); }
+.pitch li span { color: var(--muted); }
+.pitch li b { text-transform: uppercase; font-stretch: 90%; }
+@media (max-width: 760px) { .pitch { grid-template-columns: 1fr; } }
+
+/* Works index */
+.index { border-top: 1px solid var(--line); }
+.index ol { list-style: none; margin: clamp(24px, 4vw, 44px) 0 0; padding: 0; }
+.index li { border-bottom: 1px solid var(--line); }
+.index li:first-child { border-top: 1px solid var(--line); }
+.index a { display: grid; grid-template-columns: 4ch minmax(0, 1fr) auto auto; gap: 6px 24px; align-items: baseline; padding: clamp(12px, 1.8vw, 22px) 0; text-decoration: none; transition: padding .3s cubic-bezier(.2,.7,.2,1), color .2s; }
+.index a .t { font-family: var(--display); text-transform: uppercase; font-size: clamp(2rem, 6.4vw, 6rem); line-height: .95; }
+.index a .mono { color: var(--muted); }
+.index a:hover, .index a:focus-visible { color: var(--c, var(--accent)); padding-left: clamp(8px, 1.6vw, 24px); }
+@media (max-width: 760px) {
+  .index a { grid-template-columns: 4ch minmax(0, 1fr); }
+  .index a .role, .index a .yr { grid-column: 2; }
+}
+
+/* Project blocks */
+.project { background: var(--pbg); color: var(--pink); padding-block: clamp(40px, 6vw, 88px); }
+.project .mono { color: var(--pmut); }
+.p-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px 32px; }
+.p-head h3 { font-size: clamp(3rem, 11vw, 10rem); }
+.p-head h3 small { display: block; font-family: var(--mono); font-size: .76rem; letter-spacing: .04em; margin-bottom: 14px; color: var(--pmut); }
+.p-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(20px, 5vw, 72px); margin-top: clamp(24px, 4vw, 48px); align-items: start; }
+.p-body p { margin: 0 0 1em; max-width: 56ch; }
+.caps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.caps div { background: var(--pcard); color: var(--pcardink); padding: 16px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+.caps div.long { min-height: 0; }
+.caps b { text-transform: uppercase; font-stretch: 88%; line-height: 1.15; }
+.caps p { font-size: .88rem; margin: 0; line-height: 1.45; }
+.caps .k { font-family: var(--mono); font-size: .8rem; }
+.gal { display: flex; gap: clamp(10px, 1.6vw, 22px); margin-top: clamp(28px, 4vw, 56px); overflow-x: auto; padding-bottom: 10px; align-items: flex-end; scrollbar-color: var(--pmut) transparent; }
+.gal figure { margin: 0; flex: 0 0 auto; }
+.gal img, .gal video { display: block; height: clamp(300px, 38vw, 520px); width: auto; max-width: none; border-radius: 14px; background: #000; }
+.gal video { border-radius: 22px; }
+.gal img.wide, .gal video.wide { border-radius: 4px; }
+.vstack { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: clamp(28px, 4vw, 56px); }
+.vstack figure { margin: 0; }
+.vwrap { position: relative; display: block; }
+.vwrap video { cursor: pointer; }
+.play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; padding: 0; border: 0; border-radius: 50%; background: rgba(10,10,10,.72); cursor: pointer; transition: transform .2s, background .2s; }
+.play::before { content: ""; position: absolute; left: 26px; top: 20px; border-style: solid; border-width: 12px 0 12px 19px; border-color: transparent transparent transparent #fff; }
+.play:hover { transform: scale(1.08); background: rgba(10,10,10,.9); }
+.vwrap.playing .play { display: none; }
+.vstack video { display: block; width: 100%; height: auto; border-radius: 4px; background: #000; }
+@media (max-width: 860px) { .vstack { grid-template-columns: 1fr; } }
+.gal figcaption { margin-top: 10px; }
+.gal figcaption b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.9rem; line-height: 1; color: var(--pink); letter-spacing: .01em; }
+.gal a.ext { display: block; margin-top: 8px; color: var(--pink); text-underline-offset: 3px; }
+.gal a.ext:hover { color: var(--pmut); }
+.g-label { margin: clamp(28px, 4vw, 48px) 0 0; }
+.g-label + .gal { margin-top: 14px; }
+@media (max-width: 860px) {
+  .p-body { grid-template-columns: 1fr; }
+  .caps { grid-template-columns: 1fr; }
+  .caps div { min-height: 0; }
+}
+#mts    { --pbg: #d8312b; --pink: #fff; --pmut: #ffd9a8; --pcard: #14263b; --pcardink: #fff; }
+#gp2    { --pbg: #170a2b; --pink: #fff; --pmut: #ff5c8a; --pcard: #26143f; --pcardink: #fff; }
+#bandai { --pbg: #f3f1ec; --pink: #111; --pmut: #c3211b; --pcard: #e2dfd8; --pcardink: #111; }
+#henry  { --pbg: #ecc93c; --pink: #111; --pmut: #4a3c00; --pcard: #111; --pcardink: #fff; }
+#gp3    { --pbg: #131313; --pink: #fff; --pmut: #f0563a; --pcard: #fff; --pcardink: #111; }
+
+/* About */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 5vw, 80px); align-items: center; }
+.about img { width: 100%; max-width: 520px; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%; justify-self: center; }
+.about p { margin: 0 0 1em; max-width: 52ch; }
+.about p em { font-style: normal; color: var(--accent); }
+@media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
+
+/* Contact */
+.contact { border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, .7fr); gap: clamp(20px, 5vw, 80px); align-items: end; }
+.contact h2 { font-size: clamp(4rem, 15vw, 14rem); }
+.contact dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 20px 32px; margin: clamp(24px, 4vw, 44px) 0 0; }
+.contact dt { color: var(--muted); }
+.contact dd { margin: 4px 0 0; text-transform: uppercase; font-weight: 600; font-stretch: 90%; overflow-wrap: anywhere; }
+.contact dd a:hover { color: var(--accent); }
+.contact img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+@media (max-width: 760px) { .contact { grid-template-columns: 1fr; } .contact img { max-width: 320px; } }
+
+footer { border-top: 1px solid var(--line); padding-block: 20px 30px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; color: var(--muted); }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  h1, .band-track { animation: none; }
+  .play { transition: none; }
+  .bilan img, .index a { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#accueil">Cathy Nguyen</a>
+    <nav class="main" aria-label="Navigation principale">
+      <a href="#projets">Projets</a>
+      <a href="#a-propos">À mon sujet</a>
+      <a class="btn" href="#contact">On discute ?</a>
+    </nav>
+  </header>
+
+  <div class="hero" id="accueil">
+    <figure><img src="img/cathy-portrait.jpg" alt="Cathy Nguyen devant un circuit automobile"></figure>
+    <div class="hero-text">
+      <div class="hero-meta mono">
+        <span>Freelance · Marketing digital, communication &amp; gestion de projets | Entertainment &amp; industries culturelles</span>
+        <span>2026 · Paris, FR</span>
+      </div>
+      <h1 class="display"><span>Cathy</span><span>Nguyen</span></h1>
+      <p class="lede">Je conçois et déploie des stratégies de communication pour des marques et des projets créatifs, du divertissement à l'influence.</p>
+    </div>
+  </div>
+</div>
+
+<div class="band" aria-hidden="true">
+  <div class="band-track">
+    <span>Marketing digital</span><i>✦</i><span>Communication</span><i>✦</i><span>Gestion de projets</span><i>✦</i><span>Événementiel</span><i>✦</i><span>Création de contenus</span><i>✦</i><span>Social media</span><i>✦</i>
+    <span>Marketing digital</span><i>✦</i><span>Communication</span><i>✦</i><span>Gestion de projets</span><i>✦</i><span>Événementiel</span><i>✦</i><span>Création de contenus</span><i>✦</i><span>Social media</span><i>✦</i>
+  </div>
+</div>
+
+<main>
+  <section class="wrap">
+    <p class="mono eyebrow">En ce moment</p>
+    <h2 class="display">Bilan 2025</h2>
+    <div class="bilan">
+      <a href="#bandai">
+        <div class="shot"><img src="img/bilan-bandai.jpg" alt="Stand Bandai Namco sur un salon"></div>
+        <div class="row"><span class="n">01</span><span><strong>Bandai Namco</strong><span class="mono role">EMEA Web Manager</span></span><span class="mono when">2025<br>En cours</span></div>
+      </a>
+      <a href="#henry">
+        <div class="shot"><img src="img/bilan-henry.jpg" alt="Henry Tran lors d'un événement gaming"></div>
+        <div class="row"><span class="n">02</span><span><strong>Henry Tran</strong><span class="mono role">Social Media Manager</span></span><span class="mono when">2025<br>En cours</span></div>
+      </a>
+      <a href="#gp3">
+        <div class="shot"><img src="img/bilan-gp3.jpg" alt="Ligne de départ du GP Explorer 3 survolée par une patrouille aérienne"></div>
+        <div class="row"><span class="n">03</span><span><strong>GP Explorer 3</strong><span class="mono role">Content Creator</span></span><span class="mono when">Avril 2025<br>Oct. 2025</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="pitch">
+      <p class="big" style="padding-top: clamp(28px, 4vw, 56px)">J'accompagne des <em>projets à forte visibilité</em> : coordination de dispositifs complexes, création de contenus et pilotage d'activations événementielles.</p>
+      <ul style="padding-top: clamp(28px, 4vw, 56px)">
+        <li><span class="mono">MKT</span><b>Marketing digital</b></li>
+        <li><span class="mono">COM</span><b>Communication &amp; contenus</b></li>
+        <li><span class="mono">EVENT</span><b>Événementiel &amp; activations</b></li>
+        <li><span class="mono">PM</span><b>Gestion de projets</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap index" id="projets">
+    <p class="mono eyebrow">Work experience</p>
+    <h2 class="display">Projets</h2>
+    <ol>
+      <li><a href="#mts" style="--c:#ff5a4f"><span class="mono">01</span><span class="t">Merguez Tuning Show</span><span class="mono role">Site web · App mobile</span><span class="mono yr">2023</span></a></li>
+      <li><a href="#gp2" style="--c:#ff5c8a"><span class="mono">02</span><span class="t">GP Explorer 2</span><span class="mono role">UX/UI · Contenus</span><span class="mono yr">2023</span></a></li>
+      <li><a href="#bandai" style="--c:#ff4a3d"><span class="mono">03</span><span class="t">Bandai Namco</span><span class="mono role">EMEA Web Manager</span><span class="mono yr">2025</span></a></li>
+      <li><a href="#henry" style="--c:#ecc93c"><span class="mono">04</span><span class="t">Henry Tran</span><span class="mono role">Social Media Manager</span><span class="mono yr">2025</span></a></li>
+      <li><a href="#gp3" style="--c:#f0563a"><span class="mono">05</span><span class="t">GP Explorer 3</span><span class="mono role">Content Creator</span><span class="mono yr">2025</span></a></li>
+    </ol>
+  </section>
+
+  <article class="project" id="mts">
+    <div class="wrap">
+      <div class="p-head">
+        <h3 class="display"><small>Project 01</small>Merguez Tuning Show</h3>
+        <span class="mono">Site web · Application mobile · 2023</span>
+      </div>
+      <div class="p-body">
+        <div>
+          <p>J'ai conçu et supervisé la création du site web officiel du Merguez Tuning Show, en veillant à offrir une expérience utilisateur optimale et adaptée à l'envergure de l'événement.</p>
+          <p>J'ai également piloté le développement de l'application mobile dédiée, en collaboration avec un prestataire, pour proposer des fonctionnalités interactives et améliorer l'engagement des participants.</p>
+        </div>
+        <div class="caps">
+          <div><span class="k">01</span><b>Site web officiel</b></div>
+          <div><span class="k">02</span><b>Application mobile</b></div>
+          <div><span class="k">03</span><b>Pilotage prestataire</b></div>
+        </div>
+      </div>
+      <div class="gal" tabindex="0" aria-label="Écrans de l'application et du site Merguez Tuning Show">
+        <figure><img src="img/mts-app-1.jpg" alt="Écran d'accueil de l'application avec compte à rebours" loading="lazy"></figure>
+        <figure><img src="img/mts-app-2.jpg" alt="Écran infos billetterie" loading="lazy"></figure>
+        <figure><img src="img/mts-app-3.jpg" alt="Écran transport" loading="lazy"></figure>
+        <figure><img src="img/mts-app-4.jpg" alt="Écran line-up" loading="lazy"></figure>
+        <figure><span class="vwrap"><video class="wide" src="video/mts-site.mp4" poster="video/mts-site.jpg" width="1280" height="622" style="aspect-ratio:1280/622" muted loop playsinline preload="none" aria-label="Navigation filmée dans le site web du Merguez Tuning Show"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span></figure>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="gp2">
+    <div class="wrap">
+      <div class="p-head">
+        <h3 class="display"><small>Project 02</small>GP Explorer 2</h3>
+        <span class="mono">UX/UI · Captation &amp; création de contenus · 2023</span>
+      </div>
+      <div class="p-body">
+        <div>
+          <p>Pour le GP Explorer 2, j'ai conçu les maquettes UX/UI de l'application mobile, en veillant à optimiser l'expérience utilisateur et à répondre aux besoins spécifiques de l'événement.</p>
+          <p>J'ai également travaillé en étroite collaboration avec la CM pour concevoir du contenu, que ce soit en réalisant des montages, en captant des images lors des événements ou en contribuant à la mise en place de formats adaptés aux différentes plateformes.</p>
+        </div>
+        <div class="caps">
+          <div><span class="k">01</span><b>Maquettes UX/UI</b></div>
+          <div><span class="k">02</span><b>Captation d'images</b></div>
+          <div><span class="k">03</span><b>Montage &amp; formats</b></div>
+        </div>
+      </div>
+      <p class="mono g-label">Application mobile</p>
+      <div class="gal" tabindex="0" aria-label="Écrans de l'application GP Explorer 2">
+        <figure><img src="img/gp2-app-1.jpg" alt="Écran d'accueil de l'application GP Explorer" loading="lazy"></figure>
+        <figure><img src="img/gp2-app-2.jpg" alt="Écran des écuries" loading="lazy"></figure>
+        <figure><img src="img/gp2-app-3.jpg" alt="Écran du circuit et des animations" loading="lazy"></figure>
+        <figure><img src="img/gp2-app-4.jpg" alt="Écran des stands partenaires" loading="lazy"></figure>
+      </div>
+      <p class="mono g-label">Captation &amp; création de contenus</p>
+      <div class="gal" tabindex="0" aria-label="Contenus vidéo réalisés pour le GP Explorer 2">
+        <figure><span class="vwrap"><video src="video/gp2-1.mp4" poster="video/gp2-1.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : un pilote présente une ardoise"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7237527118408715546" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+        <figure><span class="vwrap"><video src="video/gp2-2.mp4" poster="video/gp2-2.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : interview de pilotes dans le paddock"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7244577898525429019" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+        <figure><span class="vwrap"><video src="video/gp2-3.mp4" poster="video/gp2-3.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : interview dans les stands"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7275060956781104416" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+        <figure><span class="vwrap"><video src="video/gp2-4.mp4" poster="video/gp2-4.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : défi de bilboquet entre pilotes"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7252653038182173979" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="bandai">
+    <div class="wrap">
+      <div class="p-head">
+        <h3 class="display"><small>Project 03</small>Bandai Namco</h3>
+        <span class="mono">EMEA Web Manager · 2025, en cours</span>
+      </div>
+      <div class="caps" style="margin-top: clamp(24px, 4vw, 48px)">
+        <div class="long"><span class="k">01</span><b>UX &amp; web design</b><p>Conception et optimisation de maquettes web desktop et mobile, avec une approche centrée sur l'expérience utilisateur, la performance et la cohérence des parcours, adaptées aux enjeux des licences et des activations.</p></div>
+        <div class="long"><span class="k">02</span><b>Activations digitales &amp; événements</b><p>Coordination et déploiement de dispositifs digitaux web autour d'événements internationaux majeurs (The Game Awards, Gamescom, Summer Game Fest, Red Bull Event, concerts…), en collaboration avec les équipes internes et partenaires externes.</p></div>
+        <div class="long"><span class="k">03</span><b>Valorisation de licences &amp; brand content</b><p>Mise en valeur et promotion de licences emblématiques (Elden Ring, Little Nightmares, Tekken, Dragon Ball, Gundam, Unknown9, Tales of Series, Bleach, Pac-Man) dans le respect des standards de marque et des objectifs de communication.</p></div>
+      </div>
+      <div class="vstack" aria-label="Pages web réalisées pour Bandai Namco, filmées en défilement">
+        <figure><span class="vwrap"><video src="video/bandai-1.mp4" poster="video/bandai-1.jpg" width="812" height="290" style="aspect-ratio:812/290" muted loop playsinline preload="none" aria-label="Défilement d'une page web dédiée à un tournoi de jeu de combat"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span></figure>
+        <figure><span class="vwrap"><video src="video/bandai-2.mp4" poster="video/bandai-2.jpg" width="812" height="290" style="aspect-ratio:812/290" muted loop playsinline preload="none" aria-label="Défilement d'une page web de présentation d'un jeu de combat"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span></figure>
+        <figure><span class="vwrap"><video src="video/bandai-3.mp4" poster="video/bandai-3.jpg" width="812" height="290" style="aspect-ratio:812/290" muted loop playsinline preload="none" aria-label="Défilement d'une page web de guides pour un jeu d'action"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span></figure>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="henry">
+    <div class="wrap">
+      <div class="p-head">
+        <h3 class="display"><small>Project 04</small>Henry Tran</h3>
+        <span class="mono">Social Media Manager · 2025, en cours</span>
+      </div>
+      <div class="caps" style="margin-top: clamp(24px, 4vw, 48px)">
+        <div><span class="k">01</span><b>Gestion de projets vidéo &amp; streaming</b></div>
+        <div><span class="k">02</span><b>Community &amp; social media management</b></div>
+        <div><span class="k">03</span><b>Stratégie de com event</b></div>
+      </div>
+      <div class="gal" tabindex="0" aria-label="Projets menés avec Henry Tran">
+        <figure><img class="wide" src="img/henry-portrait.jpg" alt="Portrait d'Henry Tran sur fond jaune" loading="lazy"><figcaption class="mono"><b>Henry Tran</b>Créateur de contenu</figcaption></figure>
+        <figure><img class="wide" src="img/henry-pgw.jpg" alt="Henry Tran sur un stand de salon gaming" loading="lazy"><figcaption class="mono"><b>PGW 2025</b>Com event</figcaption></figure>
+        <figure><img class="wide" src="img/henry-switch.jpg" alt="Tournage d'une publicité : deux joueurs sur un canapé" loading="lazy"><figcaption class="mono"><b>Pub Nintendo Switch 2</b>Projet vidéo</figcaption></figure>
+        <figure><img class="wide" src="img/henry-youtube.jpg" alt="Tournage d'une vidéo YouTube avec trois invités" loading="lazy"><figcaption class="mono"><b>YouTube (1.5M)</b>Vidéo &amp; streaming</figcaption></figure>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="gp3">
+    <div class="wrap">
+      <div class="p-head">
+        <h3 class="display"><small>Project 05</small>GP Explorer 3</h3>
+        <span class="mono">Content Creator · Avril – oct. 2025</span>
+      </div>
+      <div class="caps" style="margin-top: clamp(24px, 4vw, 48px)">
+        <div><span class="k">01</span><b>Captation photo/vidéo sur circuit</b></div>
+        <div><span class="k">02</span><b>Conception &amp; montage</b></div>
+        <div><span class="k">03</span><b>Aide à la gestion et animation RS</b></div>
+      </div>
+      <div class="gal" tabindex="0" aria-label="Contenus réalisés pour le GP Explorer 3 et leurs vues">
+        <figure><span class="vwrap"><video src="video/gp3-1.mp4" poster="video/gp3-1.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : On teste les réflexes des pilotes"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><b>4.8 M</b>vues<a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7506499102402825494" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+        <figure><span class="vwrap"><video src="video/gp3-2.mp4" poster="video/gp3-2.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale dans la voie des stands"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><b>550 K</b>vues<a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7540742653978266902" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+        <figure><span class="vwrap"><video src="video/gp3-3.mp4" poster="video/gp3-3.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : Les surnoms d'écurie des pilotes"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><b>771 K</b>vues<a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7538131910153850134" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+        <figure><span class="vwrap"><video src="video/gp3-4.mp4" poster="video/gp3-4.jpg" width="342" height="696" style="aspect-ratio:342/696" muted loop playsinline preload="none" aria-label="Vidéo verticale : On offre des fleurs aux pilotes"></video><button type="button" class="play" aria-label="Lire la vidéo"></button></span><figcaption class="mono"><b>400 K</b>vues<a class="ext" href="https://www.tiktok.com/@gp_explorer/video/7534032457872592150" target="_blank" rel="noopener">Voir sur TikTok ↗</a></figcaption></figure>
+      </div>
+    </div>
+  </article>
+
+  <section class="wrap" id="a-propos">
+    <div class="about">
+      <img src="img/cathy-circuit.jpeg" alt="Cathy Nguyen en chasuble photo-vidéo GP Explorer, accoudée à une rambarde, regardant le circuit au coucher du soleil" loading="lazy">
+      <div>
+        <p class="mono eyebrow">Freelance · MKT COM EVENT</p>
+        <h2 class="display" style="margin-bottom: 28px">À mon sujet</h2>
+        <p>Professionnelle de la gestion de projets, de la <em>communication</em> et de l'événementiel, j'évolue depuis plus de 3 ans dans les univers du <em>divertissement</em> et de l'influence.</p>
+        <p>J'accompagne des projets à forte visibilité en assurant la coordination de dispositifs complexes, la création de contenus et le pilotage d'activations <em>événementielles</em>, en lien avec des équipes pluridisciplinaires et des partenaires externes.</p>
+        <p><em>Freelance</em>, je mets aujourd'hui mon expertise au service de marques et <em>projets créatifs</em> pour concevoir et déployer des stratégies de communication efficaces et cohérentes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap contact" id="contact">
+    <div>
+      <h2 class="display">On discute ?</h2>
+      <dl>
+        <div><dt class="mono">E-mail</dt><dd><a href="mailto:cth.nguyen16@gmail.com">cth.nguyen16@gmail.com</a></dd></div>
+        <div><dt class="mono">LinkedIn</dt><dd>Cathy Nguyen</dd></div>
+        <div><dt class="mono">Location</dt><dd>Paris, FR</dd></div>
+      </dl>
+    </div>
+    <img src="img/cathy-contact.jpg" alt="Portrait de Cathy Nguyen, souriante, badge d'accréditation autour du cou" loading="lazy">
+  </section>
+</main>
+
+<div class="wrap">
+  <footer class="mono">
+    <span>© 2026 Cathy Nguyen</span>
+    <span>Freelance · Paris</span>
+    <a href="#accueil">Haut de page ↑</a>
+  </footer>
+</div>
+
+
+<script>
+(function () {
+  var wraps = document.querySelectorAll('.vwrap');
+  function stop(w) { w.querySelector('video').pause(); }
+  wraps.forEach(function (w) {
+    var v = w.querySelector('video');
+    function toggle() {
+      if (v.paused) {
+        wraps.forEach(function (o) { if (o !== w) stop(o); });
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { v.controls = true; });
+      } else { v.pause(); }
+    }
+    v.addEventListener('click', toggle);
+    w.querySelector('.play').addEventListener('click', toggle);
+    v.addEventListener('play', function () { w.classList.add('playing'); });
+    v.addEventListener('pause', function () { w.classList.remove('playing'); });
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (!e.isIntersecting) e.target.querySelector('video').pause(); });
+    }, { threshold: 0.1 });
+    wraps.forEach(function (w) { io.observe(w); });
+  }
+})();
+</script>
+</body>
+</html>
